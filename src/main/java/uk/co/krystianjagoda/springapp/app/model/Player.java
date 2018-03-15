@@ -11,7 +11,7 @@ public class Player {
     }
 
     public Player(String firstName, String lastName) {
-        if (firstName.isEmpty() || lastName.isEmpty()){
+        if (firstName.isEmpty() || lastName.isEmpty()) {
             throw new IllegalArgumentException("First or last name cannot be empty");
         }
         this.firstName = checkNotNull(firstName);

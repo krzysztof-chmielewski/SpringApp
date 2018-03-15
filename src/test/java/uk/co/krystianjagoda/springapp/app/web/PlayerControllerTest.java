@@ -21,8 +21,8 @@ public class PlayerControllerTest {
     private final MockMvc mvc = standaloneSetup(controller).build();
 
     @Test
-    public void display() throws Exception {
-        MvcResult result = mvc.perform(get("/players/displayPlayers")).andExpect(status().isOk()).andReturn();
+    public void displayPlayers() throws Exception {
+        MvcResult result = mvc.perform(get("/players/form")).andExpect(status().isOk()).andReturn();
 
         verifyViewNameAndModelKey(result, "players", "players");
         verify(service).getPlayers();
@@ -30,7 +30,7 @@ public class PlayerControllerTest {
 
     @Test
     public void addNewPlayer() throws Exception {
-        MvcResult result = mvc.perform(post("/players/addPlayers")
+        MvcResult result = mvc.perform(post("/players/form")
                 .param("firstName", "John")
                 .param("lastName", "Doe"))
                 .andExpect(status().isOk()).andReturn();

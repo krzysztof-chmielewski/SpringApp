@@ -18,15 +18,20 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping("displayPlayers")
-    public String displayPlayers(Model model){
+    @ModelAttribute
+    public Player defaultPlayer() {
+        return new Player("...", "...");
+    }
+
+    @RequestMapping(value = "form", method = RequestMethod.GET)
+    public String displayPlayers(Model model) {
         model.addAttribute("players", playerService.getPlayers());
 
         return "players";
     }
 
-    @PostMapping("addPlayers")
-    public String addPlayers(Player player, Model model){
+    @RequestMapping(value = "form", method = RequestMethod.POST)
+    public String addPlayers(Player player, Model model) {
         playerService.addPlayers(player);
         model.addAttribute("players", playerService.getPlayers());
 
@@ -34,8 +39,8 @@ public class PlayerController {
 
     }
 
-    @PostMapping("removePlayers")
-    public String removePlayers(Player player, Model model){
+    @RequestMapping(value = "/removePlayers", method = RequestMethod.POST)
+    public String removePlayers(Player player, Model model) {
         playerService.removePlayers(player);
         model.addAttribute("players", playerService.getPlayers());
 
