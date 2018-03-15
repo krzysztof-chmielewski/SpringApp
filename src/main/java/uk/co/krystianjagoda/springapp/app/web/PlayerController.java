@@ -3,40 +3,41 @@ package uk.co.krystianjagoda.springapp.app.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import uk.co.krystianjagoda.springapp.app.model.Player;
+import uk.co.krystianjagoda.springapp.app.service.PlayerService;
 
-import java.util.*;
 
 @Controller
+@RequestMapping("players")
+@SessionAttributes("playerSession")
 public class PlayerController {
-    private final List<String> players = new ArrayList<>();
+    private final PlayerService playerService;
 
-    public PlayerController() {
-        players.add("Adam Lalanna");
+    public PlayerController(PlayerService playerService) {
+        this.playerService = playerService;
     }
 
-    @GetMapping("display")
-    public String display(Model model){
-        model.addAttribute("players", players);
+    @GetMapping("displayPlayers")
+    public String displayPlayers(Model model){
+        model.addAttribute("players", playerService.getPlayers());
 
         return "players";
     }
 
-    @PostMapping("add")
-    public String addPlayer(@RequestParam String firstName, @RequestParam String lastName, Model model){
-        players.add(firstName + " " + lastName);
-        model.addAttribute("players",players);
+    @PostMapping("addPlayers")
+    public String addPlayers(Player player, Model model){
+        playerService.addPlayers(player);
+        model.addAttribute("players", playerService.getPlayers());
 
         return "players";
 
     }
 
-    @PostMapping("remove")
-    public String removePlayer(@RequestParam String firstName, @RequestParam String lastName, Model model){
-        players.remove(firstName + " " + lastName);
-        model.addAttribute("players", players);
+    @PostMapping("removePlayers")
+    public String removePlayers(Player player, Model model){
+        playerService.removePlayers(player);
+        model.addAttribute("players", playerService.getPlayers());
 
         return "players";
     }
